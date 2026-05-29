@@ -194,7 +194,7 @@
   }
   .btn.primary:hover { background: var(--rust); }
 
-  /* ========== SEISMIC VISUAL ========== */
+  /* ========== HERO PHOTO ========== */
   .hero-right {
     position: relative;
     height: 70vh;
@@ -203,61 +203,69 @@
     justify-content: center;
   }
 
-  .seismic-container {
+  .photo-container {
     position: relative;
     width: 100%;
     height: 100%;
     border: 1px solid var(--line);
-    background: var(--paper-warm);
+    background: var(--ink);
     overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
   }
 
-  .seismic-container::before {
-    content: "WAVE PROPAGATION / FWI";
+  .hero-photo {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    transition: transform 0.8s ease;
+    display: block;
+  }
+  .photo-container:hover .hero-photo {
+    transform: scale(1.02);
+  }
+
+  /* Top-left label */
+  .photo-container::after {
+    content: "VELOCITY MODEL / FWI";
     position: absolute;
     top: 1rem;
     left: 1rem;
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.65rem;
     letter-spacing: 0.15em;
-    color: var(--ink-soft);
-    opacity: 0.6;
+    color: var(--paper);
+    opacity: 0.7;
     z-index: 2;
   }
-  .seismic-container::after {
-    content: "v.2026 / nmtran";
+
+  /* Very subtle vignette to anchor the image in the layout */
+  .photo-container::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(15, 20, 25, 0.4) 0%, transparent 15%, transparent 85%, rgba(15, 20, 25, 0.4) 100%);
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .photo-caption {
     position: absolute;
     bottom: 1rem;
     right: 1rem;
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.65rem;
     letter-spacing: 0.15em;
-    color: var(--ink-soft);
-    opacity: 0.6;
+    color: var(--paper);
+    background: var(--ink);
+    padding: 0.4rem 0.7rem;
     z-index: 2;
+    text-transform: uppercase;
   }
-
-  .seismic-svg {
-    width: 100%;
-    height: 100%;
-  }
-
-  /* Animated seismic traces */
-  .trace {
-    fill: none;
-    stroke: var(--ink);
-    stroke-width: 0.8;
-    opacity: 0.7;
-  }
-  .trace.accent { stroke: var(--rust); stroke-width: 1.2; opacity: 1; }
-
-  @keyframes wave-pulse {
-    0%, 100% { transform: translateX(0); opacity: 0.7; }
-    50% { transform: translateX(2px); opacity: 1; }
-  }
-  .trace { animation: wave-pulse 4s ease-in-out infinite; }
-  .trace:nth-child(odd) { animation-delay: 0.3s; }
-  .trace:nth-child(3n) { animation-delay: 0.7s; }
 
   /* ========== SECTIONS ========== */
   section {
@@ -609,72 +617,9 @@
   </div>
 
   <div class="hero-right">
-    <div class="seismic-container">
-      <svg class="seismic-svg" viewBox="0 0 400 500" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-        <!-- Grid lines -->
-        <defs>
-          <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#0f141911" stroke-width="0.5"/>
-          </pattern>
-        </defs>
-        <rect width="400" height="500" fill="url(#grid)"/>
-
-        <!-- Depth labels -->
-        <text x="8" y="60" font-family="JetBrains Mono" font-size="8" fill="#0f1419" opacity="0.5">0 km</text>
-        <text x="8" y="160" font-family="JetBrains Mono" font-size="8" fill="#0f1419" opacity="0.5">2 km</text>
-        <text x="8" y="260" font-family="JetBrains Mono" font-size="8" fill="#0f1419" opacity="0.5">4 km</text>
-        <text x="8" y="360" font-family="JetBrains Mono" font-size="8" fill="#0f1419" opacity="0.5">6 km</text>
-        <text x="8" y="460" font-family="JetBrains Mono" font-size="8" fill="#0f1419" opacity="0.5">8 km</text>
-
-        <!-- Seismic traces - sine waves with noise -->
-        <g transform="translate(0, 50)">
-          <path class="trace" d="M 30,0 Q 60,-8 90,0 T 150,0 Q 180,-15 210,0 T 270,0 Q 300,-6 330,0 T 390,0"/>
-        </g>
-        <g transform="translate(0, 90)">
-          <path class="trace accent" d="M 30,0 Q 60,-20 90,5 T 150,-3 Q 180,-25 210,8 T 270,-5 Q 300,-18 330,3 T 390,0"/>
-        </g>
-        <g transform="translate(0, 130)">
-          <path class="trace" d="M 30,0 Q 60,12 90,-5 T 150,3 Q 180,18 210,-8 T 270,2 Q 300,10 330,-3 T 390,0"/>
-        </g>
-        <g transform="translate(0, 170)">
-          <path class="trace" d="M 30,0 Q 60,-15 90,8 T 150,-2 Q 180,-22 210,10 T 270,-4 Q 300,-12 330,5 T 390,0"/>
-        </g>
-        <g transform="translate(0, 210)">
-          <path class="trace accent" d="M 30,0 Q 60,25 90,-12 T 150,8 Q 180,30 210,-15 T 270,6 Q 300,20 330,-8 T 390,0"/>
-        </g>
-        <g transform="translate(0, 250)">
-          <path class="trace" d="M 30,0 Q 60,-10 90,4 T 150,-1 Q 180,-14 210,6 T 270,-2 Q 300,-8 330,3 T 390,0"/>
-        </g>
-        <g transform="translate(0, 290)">
-          <path class="trace" d="M 30,0 Q 60,8 90,-3 T 150,2 Q 180,12 210,-5 T 270,1 Q 300,6 330,-2 T 390,0"/>
-        </g>
-        <g transform="translate(0, 330)">
-          <path class="trace accent" d="M 30,0 Q 60,-18 90,7 T 150,-4 Q 180,-22 210,9 T 270,-3 Q 300,-15 330,4 T 390,0"/>
-        </g>
-        <g transform="translate(0, 370)">
-          <path class="trace" d="M 30,0 Q 60,6 90,-2 T 150,1 Q 180,9 210,-4 T 270,1 Q 300,5 330,-1 T 390,0"/>
-        </g>
-        <g transform="translate(0, 410)">
-          <path class="trace" d="M 30,0 Q 60,-4 90,2 T 150,-1 Q 180,-6 210,3 T 270,-1 Q 300,-3 330,1 T 390,0"/>
-        </g>
-        <g transform="translate(0, 450)">
-          <path class="trace" d="M 30,0 Q 60,2 90,-1 T 150,0 Q 180,3 210,-1 T 270,0 Q 300,1 330,0 T 390,0"/>
-        </g>
-
-        <!-- Source marker -->
-        <circle cx="80" cy="50" r="4" fill="#b04a25"/>
-        <text x="90" y="46" font-family="JetBrains Mono" font-size="7" fill="#b04a25">SRC</text>
-
-        <!-- Receivers -->
-        <g fill="#0f1419">
-          <polygon points="60,40 65,50 55,50"/>
-          <polygon points="120,40 125,50 115,50"/>
-          <polygon points="180,40 185,50 175,50"/>
-          <polygon points="240,40 245,50 235,50"/>
-          <polygon points="300,40 305,50 295,50"/>
-          <polygon points="360,40 365,50 355,50"/>
-        </g>
-      </svg>
+    <div class="photo-container">
+      <img src="images/hero.jpg" alt="Minh Nhat Tran — FWI inversion result" class="hero-photo">
+      <div class="photo-caption">v.2026 · nmtran</div>
     </div>
   </div>
 </header>
